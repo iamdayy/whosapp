@@ -1,0 +1,87 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import { Tabs } from "@/types"
+import ChatsList from "@/components/ChatsList.vue";
+import FreindsList from "@/components/FreindsList.vue";
+import StatusList from "@/components/StatusList.vue";
+import Setting from "@/components/Setting.vue";
+import useUserStore from "@/stores/User";
+import { onMounted } from "vue";
+
+const user = useUserStore();
+
+const tabs = ref<Tabs[]>([
+  {
+    key: 1,
+    title: "Chats",
+    icon: "mdi-forum",
+    component: ChatsList,
+  },
+  {
+    key: 2,
+    title: "Freinds",
+    icon: "mdi-account-group",
+    component: FreindsList,
+  },
+  {
+    key: 3,
+    title: "Status",
+    icon: "mdi-target-account",
+    component: StatusList,
+  },
+  {
+    key: 4,
+    title: "Setting",
+    icon: "mdi-cogs",
+    component: Setting,
+  }
+]);
+
+const tab = ref<number>(1);
+
+onMounted(() => {
+  user.getMe().then((res) => {
+    user.getFreinds().then((res) => {
+    console.log(res);
+  }).catch((res) => {
+    console.log(res);
+  })
+    console.log(res);
+  }).catch((res) => {
+    console.log(res);
+  });
+})
+</script>
+
+<template>
+  <v-app-bar title="Whosapp" rounded app>
+    <template v-slot:prepend>
+      <v-avatar @click="$router.push({ name: 'Profile', params: { username: 'me' } })" style="cursor: pointer;">
+        <v-img
+          src="https://cdn.vuetifyjs.com/images/john.jpg"
+          alt="John"
+        ></v-img>
+      </v-avatar>
+    </template>
+    <template v-slot:append>
+      <v-btn rounded icon="mdi-dots-vertical"></v-btn>
+    </template>
+  </v-app-bar>
+  <v-main class="" style="min-height: 100vh">
+  <v-window v-model="tab"  style="min-height: 100%; min-width: 100%;">
+    <v-window-item v-for="tab, i in tabs" :key="i" :value="tab.key">
+      <v-container fluid>
+        <component :is='tab.component'></component>
+      </v-container>
+    </v-window-item>
+  </v-window>
+</v-main>
+  <v-bottom-navigation v-model="tab" grow mode="shift">
+    <v-btn v-for="tab, i in tabs" :key="i" :value="tab.key">
+      <v-icon>{{ tab.icon }}</v-icon>
+      <span>{{ tab.title }}</span>
+    </v-btn>
+  </v-bottom-navigation>
+</template>
+
+<style scoped></style>
