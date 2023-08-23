@@ -39,7 +39,8 @@ const select = (e: any) => {
     @update:model-value="(e: any) => $router.push({ name: 'Messages', params: { username: e.username }})"
     prepend-inner-icon="mdi-magnify"
     variant="outlined"
-    rounded
+    rounded="lg"
+    density="compact"
   ></v-combobox>
   <v-list
     @click:select="select"

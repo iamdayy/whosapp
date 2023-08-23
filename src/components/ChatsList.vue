@@ -2,6 +2,7 @@
 import useUserStore from "@/stores/User";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
+import ProfilePhoto from "@/assets/profile-image.png"
 
 const user = useUserStore();
 const { freinds } = storeToRefs(user)
@@ -27,7 +28,7 @@ const select = (e: any) => {
       :value="item.username"
     >
       <template v-slot:prepend>
-        <v-avatar :image="item.avatar"> </v-avatar>
+        <v-avatar :image="item.avatar || ProfilePhoto"> </v-avatar>
       </template>
       <template v-slot:subtitle>
         <div v-html="item.email"></div>

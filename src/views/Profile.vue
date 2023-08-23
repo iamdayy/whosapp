@@ -1,21 +1,35 @@
 <script setup lang="ts">
+import useUserStore from "@/stores/User";
+import ProfilePhoto from "@/assets/profile-image.png";
+import { User } from "@/types";
+import { storeToRefs } from "pinia";
 import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 const editBio = ref<boolean>(false);
-const Bio = ref<string>(
-  "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus ad veritatis veniam cum, ratione vitae mollitia labore perspiciatis beatae, sit maxime, velit deserunt inventore suscipit quae corrupti odio vel pariatur."
-);
-const Phone = ref<number>(12340564);
 const isScroll = ref<boolean>(false);
 
+const user = ref<User>({
+  phone: ""
+} as User);
+const route = useRoute();
+const { me, freinds } = storeToRefs(useUserStore());
 onMounted(() => {
   window.onscroll = () => {
-    if (window.scrollY > 50) {
+    if (window.scrollY > 150) {
       isScroll.value = true;
     } else {
       isScroll.value = false;
     }
   };
+
+  if (route.params.username == 'me') {
+    user.value = me.value!;
+  } else {
+    user.value = freinds.value?.find((freind) => freind.username == route.params.username)!;
+  }
 });
+
+
 </script>
 <template>
   <v-app-bar
@@ -40,7 +54,7 @@ onMounted(() => {
       <v-avatar>
         <v-img
           v-if="isScroll"
-          src="https://cdn.vuetifyjs.com/images/john.jpg"
+          :src="user.avatar || ProfilePhoto"
           alt="John"
         ></v-img>
       </v-avatar>
@@ -62,20 +76,20 @@ onMounted(() => {
             <input ref="uploader" class="d-none" type="file" accept="image/*" />
             <v-img
               cover
-              src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
+              :src="user?.avatar || ProfilePhoto"
             ></v-img>
           </v-avatar>
         </v-col>
       </v-row>
       <v-list-item color="#0000" class="profile-text-name ma-4 pt-16">
         <v-list-item>
-          <v-list-item-title class="text-h6"> Marcus Obrien </v-list-item-title>
-          <v-list-item-subtitle>Network Engineer</v-list-item-subtitle>
+          <v-list-item-title class="text-h6">{{ user?.username }}</v-list-item-title>
+          <v-list-item-subtitle>{{ user?.email }}</v-list-item-subtitle>
         </v-list-item>
       </v-list-item>
 
       <v-card-subtitle class="d-flex align-center gap-2">
-        <b class="ml-2">Sobre Mim</b>
+        <b class="ml-2">Bio</b>
         <v-btn
           v-if="$route.params.username == 'me'"
           v-on:click="editBio = !editBio"
@@ -87,19 +101,20 @@ onMounted(() => {
       </v-card-subtitle>
 
       <p v-if="!editBio" class="pl-6 pr-6 pt-0">
-        {{ Bio }}
+        {{ user?.bio }}
       </p>
       <v-textarea
-        v-model="Bio"
+        v-model="user.bio"
         rows="2"
         v-if="editBio"
-        label="Editar minha Bio"
+        label="Edit bio"
         class="pa-6"
       ></v-textarea>
       <v-spacer></v-spacer>
       <v-text-field
+      v-model="user.phone"
         class="pa-6"
-        v-model="Phone"
+        variant="plain"
         prepend-icon="mdi-whatsapp"
         label="Phone"
         :disabled="!editBio"

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import useMessageStore from "@/stores/Message";
 import useUserStore from "@/stores/User";
+import ProfielPhoto from "@/assets/profile-image.png";
+import { User } from "@/types";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
@@ -9,30 +11,33 @@ const message = useMessageStore();
 const user = useUserStore();
 const route = useRoute();
 const { me } = storeToRefs(user);
-const { getMessageByUser } = storeToRefs(message)
-
+const { getMessageByUser } = storeToRefs(message);
 const msg = ref<string>("");
-
+const usr = ref<User>({} as User);
 const send = async () => {
+  if (!msg.value) {
+    return;
+  }
   await message.createMessage({
     body: {
       text: msg.value,
-      image: msg.value
+      image: msg.value,
     },
     from: me.value?.username!,
     to: route.params.username as string,
   });
   msg.value = "";
 };
-
 </script>
 <template>
   <v-app-bar app>
-    <v-app-bar-nav-icon @click="$router.push('/')">
-      <v-icon color="white">mdi-arrow-left</v-icon>
-    </v-app-bar-nav-icon>
-
-    <v-toolbar-title class="white--text">{{ $route.params.username }}</v-toolbar-title>
+    <template v-slot:prepend>
+      <v-btn  @click="$router.push('/')" color="white" icon="mdi-arrow-left"></v-btn>
+      <v-avatar :image="usr.avatar || ProfielPhoto" @click="$router.push({ name: 'Profile', params: { username: usr.username } })"></v-avatar>
+    </template>
+    <v-toolbar-title class="white--text">{{
+      $route.params.username
+    }}</v-toolbar-title>
 
     <template v-slot:append>
       <v-btn rounded icon="mdi-dots-vertical"></v-btn>
@@ -47,18 +52,25 @@ const send = async () => {
             :key="index"
             :class="[
               'd-flex flex-row align-center my-2',
-              item.from == 'user' ? 'justify-end' : null,
+              item.formself ? 'justify-end' : null,
             ]"
           >
-            <span v-if="item.formself" class="blue--text mr-3">{{
-              item.body.text
-            }}</span>
-            <v-avatar :color="item.from == 'user' ? 'indigo' : 'red'" size="36">
-              <span class="white--text">{{ item.from[0] }}</span>
-            </v-avatar>
-            <span v-if="!item.formself" class="blue--text ml-3">{{
-              item.body.text
-            }}</span>
+            <v-sheet rounded="lg" class="pa-2">
+              <span v-if="item.formself" class="blue--text mr-1">{{
+                item.body.text
+              }}</span>
+              <!-- <v-avatar
+                :image="
+                  item.formself
+                    ? me?.avatar || ProfielPhoto
+                    : usr.avatar || ProfielPhoto
+                "
+                size="32"
+              ></v-avatar> -->
+              <span v-if="!item.formself" class="blue--text ml-1">{{
+                item.body.text
+              }}</span>
+            </v-sheet>
           </div>
         </v-col>
       </v-row>
@@ -72,7 +84,10 @@ const send = async () => {
             <v-text-field
               v-model="msg"
               :append-icon="msg ? 'mdi-send' : 'mdi-microphone'"
-              roundedz
+              prepend-inner-icon="mdi-emoticon-outline"
+              append-inner-icon="mdi-paperclip"
+              rounded="lg"
+              density="compact"
               variant="outlined"
               clear-icon="mdi-close-circle"
               clearable

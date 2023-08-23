@@ -3,13 +3,18 @@ import { ref } from "vue";
 import { Tabs } from "@/types"
 import ChatsList from "@/components/ChatsList.vue";
 import FreindsList from "@/components/FreindsList.vue";
-import StatusList from "@/components/StatusList.vue";
+// import StatusList from "@/components/StatusList.vue";
 import Setting from "@/components/Setting.vue";
+import ProfilePhoto from "@/assets/profile-image.png";
 import useUserStore from "@/stores/User";
 import { onMounted } from "vue";
+import useMessageStore from "@/stores/Message";
+import socket from "@/plugins/socket";
+import { storeToRefs } from "pinia";
 
 const user = useUserStore();
-
+const { me } = storeToRefs(user)
+const message = useMessageStore();
 const tabs = ref<Tabs[]>([
   {
     key: 1,
@@ -23,12 +28,12 @@ const tabs = ref<Tabs[]>([
     icon: "mdi-account-group",
     component: FreindsList,
   },
-  {
-    key: 3,
-    title: "Status",
-    icon: "mdi-target-account",
-    component: StatusList,
-  },
+  // {
+  //   key: 3,
+  //   title: "Status",
+  //   icon: "mdi-target-account",
+  //   component: StatusList,
+  // },
   {
     key: 4,
     title: "Setting",
@@ -41,8 +46,17 @@ const tab = ref<number>(1);
 
 onMounted(() => {
   user.getMe().then((res) => {
+    socket.auth = {
+      username: me.value?.username,
+    }
+    socket.connect();
     user.getFreinds().then((res) => {
     console.log(res);
+    message.getMessages().then((res) => {
+      console.log(res);
+    }).catch((res) => {
+      console.log(res);
+    })
   }).catch((res) => {
     console.log(res);
   })
@@ -58,7 +72,7 @@ onMounted(() => {
     <template v-slot:prepend>
       <v-avatar @click="$router.push({ name: 'Profile', params: { username: 'me' } })" style="cursor: pointer;">
         <v-img
-          src="https://cdn.vuetifyjs.com/images/john.jpg"
+          :src="me?.avatar || ProfilePhoto"
           alt="John"
         ></v-img>
       </v-avatar>
@@ -76,7 +90,7 @@ onMounted(() => {
     </v-window-item>
   </v-window>
 </v-main>
-  <v-bottom-navigation v-model="tab" grow mode="shift">
+  <v-bottom-navigation v-model="tab" grow mode="shift" density="compact">
     <v-btn v-for="tab, i in tabs" :key="i" :value="tab.key">
       <v-icon>{{ tab.icon }}</v-icon>
       <span>{{ tab.title }}</span>
