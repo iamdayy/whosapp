@@ -5,19 +5,20 @@ import LoginComponent from "@/components/Login.vue";
 import RegisterComponent from "@/components/Register.vue";
 import LoginImage from "@/assets/login.svg";
 import RegisterImage from "@/assets/sign_up.svg";
+import { shallowRef } from "vue";
 
 const tabs = ref<Tabs[]>([
   {
     key: 0,
     title: "Signin",
     icon: "mdi-login",
-    component: LoginComponent,
+    component: shallowRef(LoginComponent),
   },
   {
     key: 1,
     title: "Signup",
     icon: "mdi-account-plus",
-    component: RegisterComponent,
+    component: shallowRef(RegisterComponent),
   },
 ]);
 const tab = ref<number>(0);

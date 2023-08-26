@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/camera": "^5.0.7",
     "@mdi/font": "^7.2.96",
     "axios": "^1.4.0",
     "vue": "^3.3.4"

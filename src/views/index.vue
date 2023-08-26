@@ -7,7 +7,7 @@ import FreindsList from "@/components/FreindsList.vue";
 import Setting from "@/components/Setting.vue";
 import ProfilePhoto from "@/assets/profile-image.png";
 import useUserStore from "@/stores/User";
-import { onMounted } from "vue";
+import { onMounted, shallowRef } from "vue";
 import useMessageStore from "@/stores/Message";
 import socket from "@/plugins/socket";
 import { storeToRefs } from "pinia";
@@ -15,18 +15,19 @@ import { storeToRefs } from "pinia";
 const user = useUserStore();
 const { me } = storeToRefs(user)
 const message = useMessageStore();
+
 const tabs = ref<Tabs[]>([
   {
     key: 1,
     title: "Chats",
     icon: "mdi-forum",
-    component: ChatsList,
+    component: shallowRef(ChatsList),
   },
   {
     key: 2,
     title: "Freinds",
     icon: "mdi-account-group",
-    component: FreindsList,
+    component: shallowRef(FreindsList),
   },
   // {
   //   key: 3,
@@ -38,7 +39,7 @@ const tabs = ref<Tabs[]>([
     key: 4,
     title: "Setting",
     icon: "mdi-cogs",
-    component: Setting,
+    component: shallowRef(Setting),
   }
 ]);
 

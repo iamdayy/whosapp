@@ -2,6 +2,7 @@ import { IResponseRefreshJWT } from "@/types/IResponse";
 import rawAxios from "axios";
 import Auth from "@/stores/Auth";
 import { storeToRefs } from "pinia";
+import router from "@/routes";
 
 
 const axios = rawAxios.create({
@@ -31,7 +32,7 @@ const axiosunAuth = axios.interceptors.response.use(
     if (err.response.status === 401 && !err.config.__isRetryRequest) {
       axios.interceptors.response.eject(axiosunAuth);
       try {
-          const { data } = await rawAxios.get<IResponseRefreshJWT>("refresh", {
+          const { data } = await axios.get<IResponseRefreshJWT>("refresh", {
             headers: {
                 Authorization: `Bearer ${jwt_refresh.value}`
             }
@@ -39,7 +40,9 @@ const axiosunAuth = axios.interceptors.response.use(
         jwt_token.value = data.jwt_token
         
       } catch (error) {
-        
+        localStorage.removeItem("jwt_re");
+        localStorage.removeItem("jwt_tkn");
+        router.push({ name: "Auth" })
       }
     }
 

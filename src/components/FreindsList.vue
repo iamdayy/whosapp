@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import useUserStore from "@/stores/User";
+import PhotoProfile from "@/assets/profile-image.png";
 import { IResponseGetProfile } from "@/types/IResponse";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
@@ -56,7 +57,7 @@ const select = (e: any) => {
       :value="item.username"
     >
       <template v-slot:prepend>
-        <v-avatar :image="item.avatar"> </v-avatar>
+        <v-avatar :image="item.avatar || PhotoProfile"> </v-avatar>
       </template>
       <template v-slot:subtitle>
         <div v-html="item.email"></div>

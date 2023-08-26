@@ -7,7 +7,16 @@ export interface Tabs {
     component: Component;
 }
 
+export interface Language {
+  title: string;
+  id: string;
+}
 
+export interface Setting {
+  notification: boolean;
+  language: string | 'id' | 'en';
+  wallpaper: string;
+}
 export interface User {
     name: {
       first: string;
@@ -20,7 +29,7 @@ export interface User {
     email: string;
     phone: string;
     freinds: string[];
-    requests: string[];
+    setting: Setting;
   }
   
   interface MessageBody {
