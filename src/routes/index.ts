@@ -38,10 +38,11 @@ router.beforeEach((to, _from, next) => {
     if (to.name == 'Home' && !logged) {
         next({ name: "Auth" });
     }
-    if (to.name == 'Auth' && logged) {
+    else if (to.name == 'Auth' && logged) {
         next({ name: "Home" })
+    } else {
+        next();
     }
-    next();
 })
 
 export default router;

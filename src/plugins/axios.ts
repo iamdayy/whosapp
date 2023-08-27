@@ -6,7 +6,7 @@ import router from "@/routes";
 
 
 const axios = rawAxios.create({
-    baseURL: "http://localhost:3000/api/",
+    baseURL: "http://192.168.0.114:3000/api/",
 });
 
 axios.interceptors.request.use(

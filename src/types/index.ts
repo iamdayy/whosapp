@@ -30,6 +30,7 @@ export interface User {
     phone: string;
     freinds: string[];
     setting: Setting;
+    fcm: string;
   }
   
   interface MessageBody {

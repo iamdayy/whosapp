@@ -2,31 +2,42 @@
 import useMessageStore from "@/stores/Message";
 import useUserStore from "@/stores/User";
 import ProfielPhoto from "@/assets/profile-image.png";
-import { User } from "@/types";
+import { Message, User } from "@/types";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+import useCamera from "@/plugins/image";
 
 const message = useMessageStore();
 const user = useUserStore();
 const route = useRoute();
 const { me } = storeToRefs(user);
 const { getMessageByUser } = storeToRefs(message);
-const msg = ref<string>("");
+
+const msg = ref<Message>({
+  from: me.value?.username!,
+  to: route.params.username as string,
+  formself: true,
+  body: {
+    text: "",
+    image: ""
+  }
+});
+
+const pickImage = async () => {
+  const { data, err } = await useCamera();
+
+  msg.value.body.image = data.value!
+  console.log(err);
+}
+
 const usr = ref<User>({} as User);
 const send = async () => {
   if (!msg.value) {
     return;
   }
-  await message.createMessage({
-    body: {
-      text: msg.value,
-      image: msg.value,
-    },
-    from: me.value?.username!,
-    to: route.params.username as string,
-  });
-  msg.value = "";
+  await message.createMessage(msg.value);
+  msg.value.body.text = "";
 };
 </script>
 <template>
@@ -56,6 +67,7 @@ const send = async () => {
             ]"
           >
             <v-sheet rounded="lg" class="pa-2">
+              <v-img :src="item.body.image" :class="item.formself ? 'mr-1' : 'ml-1'"></v-img>
               <span v-if="item.formself" class="blue--text mr-1">{{
                 item.body.text
               }}</span>
@@ -85,7 +97,7 @@ const send = async () => {
               v-model="msg"
               :append-icon="msg ? 'mdi-send' : 'mdi-microphone'"
               prepend-inner-icon="mdi-emoticon-outline"
-              append-inner-icon="mdi-paperclip"
+              append-inner-icon="mdi-camera"
               rounded="lg"
               density="compact"
               variant="outlined"
@@ -94,6 +106,7 @@ const send = async () => {
               label="Message"
               type="text"
               @click:append="send"
+              @click:append-inner="pickImage"
               @keyup.enter="send"
             ></v-text-field>
           </div>

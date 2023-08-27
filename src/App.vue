@@ -5,14 +5,15 @@ import socket from './plugins/socket';
 import { Message } from './types';
 import useMessageStore from './stores/Message';
 import { storeToRefs } from 'pinia';
+import useRegisterNotifications from './plugins/fcm';
 
 const message = useMessageStore();
 const auth = useAuthStore();
 
 const { messages } = storeToRefs(message)
-
 onMounted(() => {
   auth.onInit();
+  useRegisterNotifications()
   socket.on("message", (socket: Message) => {
     messages.value.push(socket);
   })
