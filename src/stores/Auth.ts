@@ -4,6 +4,7 @@ import axios from "@/plugins/axios";
 import { IResponseChangePassword, IResponseLogin, IResponseRegister, IResponseReqToken, IResponseResetPassword } from "@/types/IResponse";
 import { IMethodChangePassword, IMethodGetToken, IMethodLogin, IMethodRegister, IMethodResetPassword } from "@/types/IMethods";
 import { AxiosResponse } from "axios";
+import useStorageState from "@/plugins/storage";
 const useAuthStore = defineStore("Auth", {
     state: (): AuthState => ({
         jwt_refresh: "",
@@ -12,9 +13,11 @@ const useAuthStore = defineStore("Auth", {
     }),
     getters: {},
     actions: {
-        onInit() {
-            const jwt_tkn = localStorage.getItem("jwt_tkn");
-            const jwt_re = localStorage.getItem("jwt_re");
+        async onInit() {
+            const { getStorage } = useStorageState();
+            
+            const jwt_tkn = await getStorage("jwt_tkn");
+            const jwt_re = await getStorage("jwt_re");
             if (jwt_re) {
                 this.jwt_refresh = jwt_re;
             }
@@ -23,10 +26,11 @@ const useAuthStore = defineStore("Auth", {
             }
         },
         setAuthData (payload: IResponseLogin) {
+            const { setStorage } = useStorageState();
             this.jwt_refresh = payload.jwt_refresh;
             this.jwt_token = payload.jwt_token
-            localStorage.setItem("jwt_re", payload.jwt_refresh);
-            localStorage.setItem("jwt_tkn", payload.jwt_token);
+            setStorage("jwt_re", payload.jwt_refresh);
+            setStorage("jwt_tkn", payload.jwt_token);
         },
         async register (payload: IMethodRegister) {
             try {

@@ -11,7 +11,6 @@ export default async function useCamera() {
             resultType: CameraResultType.Base64,
             saveToGallery: true,
             webUseInput: true,
-            allowEditing: true,
             source: CameraSource.Prompt
         });
         data.value = camera.base64String

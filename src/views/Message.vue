@@ -39,6 +39,8 @@ const send = async () => {
   await message.createMessage(msg.value);
   msg.value.body.text = "";
 };
+console.log(me.value?.setting);
+
 </script>
 <template>
   <v-app-bar app>
@@ -54,8 +56,8 @@ const send = async () => {
       <v-btn rounded icon="mdi-dots-vertical"></v-btn>
     </template>
   </v-app-bar>
-  <v-main>
-    <v-container fluid>
+  <v-main class="background" :style="`--backgroundImg: url(${me?.setting.wallpaper})`">
+    <v-container fluid class="container">
       <v-row class="fill-height pb-14" align="end">
         <v-col>
           <div
@@ -94,8 +96,8 @@ const send = async () => {
         <v-container fluid class="ma-0 pa-0">
           <div class="d-flex flex-row align-center">
             <v-text-field
-              v-model="msg"
-              :append-icon="msg ? 'mdi-send' : 'mdi-microphone'"
+              v-model="msg.body.text"
+              :append-icon="msg.body.text ? 'mdi-send' : 'mdi-microphone'"
               prepend-inner-icon="mdi-emoticon-outline"
               append-inner-icon="mdi-camera"
               rounded="lg"
@@ -115,4 +117,22 @@ const send = async () => {
     </v-row>
   </v-footer>
 </template>
-<style scoped></style>
+<style scoped>
+.background:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+  background: var(--backgroundImg);
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  background-size: cover;
+}
+.container {
+  position: relative;
+}
+</style>

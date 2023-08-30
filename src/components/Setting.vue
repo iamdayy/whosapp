@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { Language, Setting } from "@/types/index"
 import MobileWallpaper from "@/assets/mobile-wallpaper.jpg"
 import useUserStore from '@/stores/User';
+import useCamera from '@/plugins/image';
 import { storeToRefs } from 'pinia';
 
 const user = useUserStore();
@@ -27,6 +28,17 @@ const languages = ref<Language[]>([
     }
 ])
 
+const uploadImage = async () => {
+  const { data, err } = await useCamera()
+  if (data.value) {
+    
+    setting.value.wallpaper = `data:image/png;base64,${data.value}`
+  }
+  if (err.value) {
+    console.log(err.value);
+  }
+}
+
 const save = async () => {
   try {
     const data = await user.updateProfile(me.value!);
@@ -46,7 +58,7 @@ const selected = (e: any) => {
 
     <v-list-item value="filter">
       <v-list-item-title>Content filtering</v-list-item-title>
-
+s
       <v-list-item-subtitle>
         Set the content filtering level to restrict appts that can be downloaded
       </v-list-item-subtitle>
@@ -84,7 +96,9 @@ const selected = (e: any) => {
       <v-list-item-title>Wallpaper</v-list-item-title>
 
       <v-list-item-subtitle>
-        <v-img :src="setting.wallpaper || MobileWallpaper" width="125"></v-img>
+        <v-img :src="setting.wallpaper || MobileWallpaper" width="125" class="avatar-shadow">
+          <v-btn class="upload-btn" icon="mdi-camera" variant="plain" @click="uploadImage"> </v-btn>
+        </v-img>
         Add Wallpaper on your chat page
         <v-slider></v-slider>
       </v-list-item-subtitle>
@@ -93,4 +107,31 @@ const selected = (e: any) => {
   </v-list>
   <v-btn variant="tonal" rounded block color="success" @click="save">Save Changes</v-btn>
 </template>
-<style scoped></style>
+<style scoped>
+.upload-btn {
+  position: absolute !important;
+  z-index: 999;
+  /* top: 85px; */
+  visibility: hidden;
+  /* color: cadetblue; */
+  /* background: blueviolet; */
+  background: rgb(125, 198, 163);
+  /* background: linear-gradient(
+    50deg,
+    rgba(125, 198, 163, 1) 0%,
+    rgba(35, 216, 227, 1) 72%
+  ); */
+}
+
+.avatar-shadow {
+  box-shadow: 0px 0px 10px 0px rgba(50, 12, 112, 0.75);
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 12, 112, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(50, 12, 112, 0.75);
+}
+
+.avatar-shadow:hover {
+  .upload-btn {
+    visibility: visible;
+  }
+}
+</style>

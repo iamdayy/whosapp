@@ -3,6 +3,7 @@ import rawAxios from "axios";
 import Auth from "@/stores/Auth";
 import { storeToRefs } from "pinia";
 import router from "@/routes";
+import useStorageState from "./storage";
 
 
 const axios = rawAxios.create({
@@ -40,8 +41,9 @@ const axiosunAuth = axios.interceptors.response.use(
         jwt_token.value = data.jwt_token
         
       } catch (error) {
-        localStorage.removeItem("jwt_re");
-        localStorage.removeItem("jwt_tkn");
+        const { removeStorage } = useStorageState();
+        removeStorage("jwt_re");
+        removeStorage("jwt_tkn");
         router.push({ name: "Auth" })
       }
     }

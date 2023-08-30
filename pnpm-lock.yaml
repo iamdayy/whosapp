@@ -7,10 +7,16 @@ settings:
 dependencies:
   '@capacitor/camera':
     specifier: ^5.0.7
-    version: 5.0.7(@capacitor/core@5.2.3)
+    version: 5.0.7(@capacitor/core@5.3.0)
+  '@capacitor/core':
+    specifier: ^5.3.0
+    version: 5.3.0
+  '@capacitor/preferences':
+    specifier: ^5.0.6
+    version: 5.0.6(@capacitor/core@5.3.0)
   '@capacitor/push-notifications':
     specifier: ^5.0.6
-    version: 5.0.6(@capacitor/core@5.2.3)
+    version: 5.0.6(@capacitor/core@5.3.0)
   '@mdi/font':
     specifier: ^7.2.96
     version: 7.2.96
@@ -24,10 +30,10 @@ dependencies:
 devDependencies:
   '@capacitor/android':
     specifier: ^5.2.3
-    version: 5.2.3(@capacitor/core@5.2.3)
+    version: 5.2.3(@capacitor/core@5.3.0)
   '@capacitor/app':
     specifier: ^5.0.6
-    version: 5.0.6(@capacitor/core@5.2.3)
+    version: 5.0.6(@capacitor/core@5.3.0)
   '@capacitor/cli':
     specifier: ^5.2.3
     version: 5.2.3
@@ -84,28 +90,28 @@ packages:
       '@babel/helper-validator-identifier': 7.22.5
       to-fast-properties: 2.0.0
 
-  /@capacitor/android@5.2.3(@capacitor/core@5.2.3):
+  /@capacitor/android@5.2.3(@capacitor/core@5.3.0):
     resolution: {integrity: sha512-TqXOq5RIniMACcAckn/X84XajPP2GU4VH7Er390Ja2Y2BWSeUKgk7T8aURcwLYu2hnv+Op9eTww5MTBb3zBtmg==}
     peerDependencies:
       '@capacitor/core': ^5.2.0
     dependencies:
-      '@capacitor/core': 5.2.3
+      '@capacitor/core': 5.3.0
     dev: true
 
-  /@capacitor/app@5.0.6(@capacitor/core@5.2.3):
+  /@capacitor/app@5.0.6(@capacitor/core@5.3.0):
     resolution: {integrity: sha512-6ZXVdnNmaYILasC/RjQw+yfTmq2ZO7Q3v5lFcDVfq3PFGnybyYQh+RstBrYri+376OmXOXxBD7E6UxBhrMzXGA==}
     peerDependencies:
       '@capacitor/core': ^5.0.0
     dependencies:
-      '@capacitor/core': 5.2.3
+      '@capacitor/core': 5.3.0
     dev: true
 
-  /@capacitor/camera@5.0.7(@capacitor/core@5.2.3):
+  /@capacitor/camera@5.0.7(@capacitor/core@5.3.0):
     resolution: {integrity: sha512-1Wk3Dk0UhhNHdBB07UrPvUOSL7Wi5gFZRyLY1LZL2awt34iqy2cnajtfJplFmEZHk8lD0i7NAl3HbkWm4td4OQ==}
     peerDependencies:
       '@capacitor/core': ^5.0.0
     dependencies:
-      '@capacitor/core': 5.2.3
+      '@capacitor/core': 5.3.0
     dev: false
 
   /@capacitor/cli@5.2.3:
@@ -134,17 +140,25 @@ packages:
       - supports-color
     dev: true
 
-  /@capacitor/core@5.2.3:
-    resolution: {integrity: sha512-Q1zbgt3Mvldy7six2/GX54kTL0ozgnR37jeDUAXL/fOJBF4Iorr/8A0OjGEAnwEjpR1la7uFZUunESMFyMLhEQ==}
+  /@capacitor/core@5.3.0:
+    resolution: {integrity: sha512-mvhh1yJtcUTZ0hUUriBKKpxq47hn75bjxH3tYPRgAFu1z3gowCg+OtG4Rce3W5gr5fSfCjQgOSL0Vp7k9hPUWw==}
     dependencies:
       tslib: 2.6.1
 
-  /@capacitor/push-notifications@5.0.6(@capacitor/core@5.2.3):
+  /@capacitor/preferences@5.0.6(@capacitor/core@5.3.0):
+    resolution: {integrity: sha512-aDe4wGTVSAIue6XXdUFgyz7SGszxK/Ptt/iWTydMpzc1PlZXw1XTTnciM+S+SLLNZFzXlkpXT3wMnh9t0DojUA==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
+    dependencies:
+      '@capacitor/core': 5.3.0
+    dev: false
+
+  /@capacitor/push-notifications@5.0.6(@capacitor/core@5.3.0):
     resolution: {integrity: sha512-o4/EcP13XduazhJkoVWEVrRD07YcqT9Uz0pQ48SItRNjtgDhcQW1vAEo6tSL6FVA5NkxNhJikk8TUeXobgOhEg==}
     peerDependencies:
       '@capacitor/core': ^5.0.0
     dependencies:
-      '@capacitor/core': 5.2.3
+      '@capacitor/core': 5.3.0
     dev: false
 
   /@esbuild/android-arm64@0.18.20:

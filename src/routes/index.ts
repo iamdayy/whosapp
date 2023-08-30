@@ -4,6 +4,7 @@ import homeView from "@/views/index.vue";
 import MessageView from "@/views/Message.vue";
 import ProfileView from "@/views/Profile.vue";
 import AuthView from "@/views/auth.vue";
+import useStorageState from "@/plugins/storage";
 
 const routes: RouteRecordRaw[]= [
     {
@@ -33,8 +34,9 @@ const router = createRouter({
     routes
 });
 
-router.beforeEach((to, _from, next) => {
-    const logged = localStorage.getItem("jwt_re");
+router.beforeEach(async (to, _from, next) => {
+    const { getStorage } = useStorageState()
+    const logged = await getStorage("jwt_re");
     if (to.name == 'Home' && !logged) {
         next({ name: "Auth" });
     }
