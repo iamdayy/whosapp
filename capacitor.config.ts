@@ -5,9 +5,9 @@ const config: CapacitorConfig = {
   appName: 'whosapp',
   webDir: 'dist',
   server: {
-    url: "http://192.168.0.115:5173",
-    cleartext: true,
-    // androidScheme: 'https'
+    // url: "http://192.168.0.115:5173",
+    // cleartext: true,
+    androidScheme: 'https'
   }
 };
 

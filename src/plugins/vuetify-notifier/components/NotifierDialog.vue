@@ -35,9 +35,6 @@
 </template>
 
 <script setup lang="ts">
-import deepmerge from "deepmerge";
-import { defaultOptions } from "../utils/options";
-
 import { NotifierDialogOptions } from "../types";
 import { PropType, computed, ref } from "vue";
 

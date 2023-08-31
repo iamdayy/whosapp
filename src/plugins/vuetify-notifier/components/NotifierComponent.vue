@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { NotifierComponentOptions, NotifierDialogOptions } from "../types";
+import { NotifierComponentOptions } from "../types";
 import { PropType, computed, ref } from "vue";
 
 const props = defineProps({
@@ -51,7 +51,6 @@ const props = defineProps({
 });
 
 const show = ref(true);
-const input = ref<string>('');
 
 const title = computed(() => typeof props.content === 'object' ? props.content?.title : undefined);
 const component = computed(() => typeof props.content === 'object' ? props.content?.component : props.content);

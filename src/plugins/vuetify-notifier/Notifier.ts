@@ -1,4 +1,4 @@
-import { App, createApp, getCurrentInstance, inject, InjectionKey, Component } from 'vue';
+import { App, getCurrentInstance, inject, InjectionKey, Component } from 'vue';
 import { NotifierDialogOptions, ConfirmResult, Notifier, NotifierContent, NotifierToastOptions, NotifierComponentOptions, NotifierComponent, NotifierOptions } from './types';
 import { defaultOptions } from "./utils/options";
 
