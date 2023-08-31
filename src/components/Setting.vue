@@ -96,11 +96,11 @@ s
       <v-list-item-title>Wallpaper</v-list-item-title>
 
       <v-list-item-subtitle>
-        <v-img :src="setting.wallpaper || MobileWallpaper" width="125" class="avatar-shadow">
+        <v-img :src="setting.wallpaper || MobileWallpaper" width="125" class="avatar-shadow" :style="`opacity: ${setting.wpOpacity};`">
           <v-btn class="upload-btn" icon="mdi-camera" variant="plain" @click="uploadImage"> </v-btn>
         </v-img>
         Add Wallpaper on your chat page
-        <v-slider></v-slider>
+        <v-slider v-model="setting.wpOpacity" :min="0" :max="1"></v-slider>
       </v-list-item-subtitle>
     </v-list-item>
     <v-combobox class="mt-2" variant="solo" label="Language" :items="languages" item-title="title" item-value="id" @update:model-value="selected"></v-combobox>

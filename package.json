@@ -18,9 +18,10 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@capacitor/android": "^5.2.3",
+    "@capacitor/android": "^5.3.0",
     "@capacitor/app": "^5.0.6",
-    "@capacitor/cli": "^5.2.3",
+    "@capacitor/assets": "^2.0.4",
+    "@capacitor/cli": "^5.3.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "pinia": "^2.1.6",
     "socket.io-client": "^4.7.2",
@@ -29,6 +30,7 @@
     "vite-plugin-vuetify": "^1.0.2",
     "vue-router": "^4.2.4",
     "vue-tsc": "^1.8.5",
-    "vuetify": "^3.3.12"
+    "vuetify": "^3.3.12",
+    "vuetify-notifier": "^0.0.10"
   }
 }

@@ -30,8 +30,6 @@ const save = async () => {
 const uploadImage = async () => {
   const { data, err } = await useCamera()
   if (data.value) {
-    console.log(data.value);
-    
     user.value.avatar = `data:image/png;base64,${data.value}`
   }
   if (err.value) {

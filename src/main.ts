@@ -4,4 +4,12 @@ import App from '@/App.vue'
 import vuetify from '@/plugins/vuetify';
 import pinia from '@/plugins/pinia';
 import router from './routes';
-createApp(App).use(pinia).use(vuetify).use(router).mount('#app')
+
+import VuetifyNotifier from "@/plugins/vuetify-notifier"
+
+createApp(App).use(pinia).use(vuetify).use(VuetifyNotifier, {
+    default: {
+      defaultColor: 'primary', //default color for all notifications
+      closeIcon: 'mdi-close', //default close icon for component
+    },
+  }).use(router).mount('#app')
