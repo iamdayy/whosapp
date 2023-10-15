@@ -7,7 +7,7 @@ import useStorageState from "./storage";
 
 
 const axios = rawAxios.create({
-    baseURL: "http://192.168.0.115:3000/api/",
+    baseURL: "https://whosapp.fly.dev/api/",
 });
 
 axios.interceptors.request.use(

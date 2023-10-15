@@ -47,4 +47,12 @@ router.beforeEach(async (to, _from, next) => {
     }
 })
 
+router.afterEach((to, _from) => {
+    if (to.name = "Profile" || to.name == "Messages") {
+        document.title = "Whosapp" + to.params.username
+    } else {
+        document.title = to.name
+    }
+})
+
 export default router;
