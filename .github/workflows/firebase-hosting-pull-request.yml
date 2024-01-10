@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm i -g pnpm && pnpm ci && pnpm run test:unit
+      - run: npm i -g pnpm && pnpm install --frozen-lockfile && pnpm run test:unit
   e2e_test:
     runs-on: ubuntu-latest
     steps:
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm install -g pnpm && pnpm ci && pnpm run build
+      - run: npm install -g pnpm && pnpm install --frozen-lockfile && pnpm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
